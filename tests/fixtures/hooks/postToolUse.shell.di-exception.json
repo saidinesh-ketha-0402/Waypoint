@@ -1,0 +1,13 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "postToolUse",
+  "tool_name": "Shell",
+  "tool_input": {
+    "command": "dotnet run --project src/Shop.Web"
+  },
+  "tool_output": "Unhandled exception. System.AggregateException: Some services are not able to be constructed ...\nSystem.InvalidOperationException: ScopedInSingletonException, Shop.Core.Interfaces.IShopContext, Shop.Core.Interfaces.IPricingService, scoped, singleton"
+}

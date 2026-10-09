@@ -1,0 +1,18 @@
+  Determining projects to restore...
+  Restored /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj (in 39 ms).
+  Restored /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Infrastructure/Shop.Infrastructure.csproj (in 115 ms).
+  Restored /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Web/Shop.Web.csproj (in 115 ms).
+  Restored /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/tests/Shop.UnitTests/Shop.UnitTests.csproj (in 119 ms).
+/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(8,16): error CS0103: The name 'missingName' does not exist in the current context [/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj]
+/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(10,15): error CS1061: 'string' does not contain a definition for 'DoesNotExist' and no accessible extension method 'DoesNotExist' accepting a first argument of type 'string' could be found (are you missing a using directive or an assembly reference?) [/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj]
+/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(7,9): warning CS0219: The variable 'unused' is assigned but its value is never used [/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj]
+
+Build FAILED.
+
+/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(7,9): warning CS0219: The variable 'unused' is assigned but its value is never used [/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj]
+/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(8,16): error CS0103: The name 'missingName' does not exist in the current context [/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj]
+/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(10,15): error CS1061: 'string' does not contain a definition for 'DoesNotExist' and no accessible extension method 'DoesNotExist' accepting a first argument of type 'string' could be found (are you missing a using directive or an assembly reference?) [/Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj]
+    1 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:01.09

@@ -1,0 +1,9 @@
+---
+description: Waypoint task continuity (.NET)
+alwaysApply: true
+---
+This solution uses Waypoint for cross-session task memory.
+- If no "Waypoint resume brief" is in your context, call `waypoint.resume` before exploring the solution.
+- Before changing an interface, a DI registration, or an EF model, call `waypoint.impact` on it.
+- When you choose a DI lifetime, add a migration, abandon an approach, or discover a constraint, call `waypoint.record_decision` (one sentence, name the type/member).
+- Before declaring a task complete, call `waypoint.open_items` and resolve or list each item.

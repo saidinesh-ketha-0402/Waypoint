@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Waypoint.Core\Waypoint.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\graph-template.html" />
+    <EmbeddedResource Include="Assets\cytoscape.min.js" />
+  </ItemGroup>
+</Project>

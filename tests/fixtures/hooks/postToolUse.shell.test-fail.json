@@ -1,0 +1,13 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "postToolUse",
+  "tool_name": "Shell",
+  "tool_input": {
+    "command": "dotnet test"
+  },
+  "tool_output": "[xUnit.net 00:00:00.08]     Shop.UnitTests.PricingTests.Clamps_to_50_percent [FAIL]\nFailed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 218 ms - Shop.UnitTests.dll (net10.0)"
+}

@@ -1,0 +1,4 @@
+Unhandled exception. System.InvalidOperationException: NoServiceRegistered, Shop.Core.Interfaces.IBasketService
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Program.<Main>$(String[] args) in /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures3/src/Shop.Web/Program.cs:line 17

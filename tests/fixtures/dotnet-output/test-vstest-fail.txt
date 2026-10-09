@@ -1,0 +1,21 @@
+  Determining projects to restore...
+  Restored /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/Shop.Core.csproj (in 43 ms).
+  Restored /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Infrastructure/Shop.Infrastructure.csproj (in 104 ms).
+  Restored /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/tests/Shop.UnitTests/Shop.UnitTests.csproj (in 105 ms).
+  Shop.Core -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Core/bin/Debug/net10.0/Shop.Core.dll
+  Shop.Infrastructure -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/src/Shop.Infrastructure/bin/Debug/net10.0/Shop.Infrastructure.dll
+  Shop.UnitTests -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/tests/Shop.UnitTests/bin/Debug/net10.0/Shop.UnitTests.dll
+Test run for /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/tests/Shop.UnitTests/bin/Debug/net10.0/Shop.UnitTests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.08]     Shop.UnitTests.PricingTests.Clamps_to_50_percent [FAIL]
+  Failed Shop.UnitTests.PricingTests.Clamps_to_50_percent [4 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 55.00
+Actual:   50.0
+  Stack Trace:
+     at Shop.UnitTests.PricingTests.Clamps_to_50_percent() in /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/.tmp-demoshop-captures/tests/Shop.UnitTests/PricingTests.cs:line 23
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+
+Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 218 ms - Shop.UnitTests.dll (net10.0)

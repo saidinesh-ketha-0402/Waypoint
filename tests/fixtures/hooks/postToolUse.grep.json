@@ -1,0 +1,13 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "postToolUse",
+  "tool_name": "Grep",
+  "tool_input": {
+    "pattern": "IPricingService"
+  },
+  "tool_output": "src/Shop.Core/Interfaces/IPricingService.cs:3:public interface IPricingService\nsrc/Shop.Web/Program.cs:11:builder.Services.AddScoped<IPricingService, PricingService>();"
+}

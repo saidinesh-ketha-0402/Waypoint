@@ -1,0 +1,18 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Waypoint.Core -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/src/Waypoint.Core/bin/Debug/net10.0/Waypoint.Core.dll
+  Waypoint.Mcp -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/src/Waypoint.Mcp/bin/Debug/net10.0/Waypoint.Mcp.dll
+  Waypoint.Roslyn -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/src/Waypoint.Roslyn/bin/Debug/net10.0/Waypoint.Roslyn.dll
+  Waypoint.Viz -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/src/Waypoint.Viz/bin/Debug/net10.0/Waypoint.Viz.dll
+  Waypoint.Core.Tests -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/Waypoint.Core.Tests/bin/Debug/net10.0/Waypoint.Core.Tests.dll
+  Waypoint.Viz.Tests -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/Waypoint.Viz.Tests/bin/Debug/net10.0/Waypoint.Viz.Tests.dll
+  Waypoint.Mcp.Tests -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/Waypoint.Mcp.Tests/bin/Debug/net10.0/Waypoint.Mcp.Tests.dll
+  Waypoint.Roslyn.Tests -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/Waypoint.Roslyn.Tests/bin/Debug/net10.0/Waypoint.Roslyn.Tests.dll
+  Waypoint.Cli -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/src/Waypoint.Cli/bin/Debug/net10.0/Waypoint.Cli.dll
+  Waypoint.Cli.Tests -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/Waypoint.Cli.Tests/bin/Debug/net10.0/Waypoint.Cli.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.25

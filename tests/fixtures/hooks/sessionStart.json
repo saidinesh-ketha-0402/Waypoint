@@ -1,0 +1,10 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "model": "gpt-5.3-codex",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "transcript_path": "{{REPO}}/tests/fixtures/transcripts/sample-transcript.md",
+  "hook_event_name": "sessionStart"
+}

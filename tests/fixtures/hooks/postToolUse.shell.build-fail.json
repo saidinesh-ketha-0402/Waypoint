@@ -1,0 +1,13 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "postToolUse",
+  "tool_name": "Shell",
+  "tool_input": {
+    "command": "dotnet build"
+  },
+  "tool_output": "Build FAILED.\n{{REPO}}/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(7,9): warning CS0219: The variable 'unused' is assigned but its value is never used\n{{REPO}}/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(8,16): error CS0103: The name 'missingName' does not exist in the current context\n{{REPO}}/.tmp-demoshop-captures/src/Shop.Core/Services/BuildBreak.cs(10,15): error CS1061: 'string' does not contain a definition for 'DoesNotExist'\n1 Warning(s)\n2 Error(s)"
+}

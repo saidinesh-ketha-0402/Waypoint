@@ -1,0 +1,5 @@
+{"type":"session.start","session_id":"sess_demo_001","conversation_id":"conv_demo_001"}
+{"type":"tool.call","tool_name":"Read","tool_input":{"path":"{{REPO}}/tests/fixtures/DemoShop/src/Shop.Core/Services/PricingService.cs"}}
+{"type":"tool.result","tool_name":"Read","ok":true}
+{"type":"assistant.message","text":"I updated `PricingService` and re-ran tests."}
+{"type":"session.end","session_id":"sess_demo_001"}

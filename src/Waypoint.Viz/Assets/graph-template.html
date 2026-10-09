@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Waypoint Task Graph</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-soft: #f1f5f9;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #2563eb;
+      --border: #cbd5e1;
+    }
+    html, body { margin: 0; padding: 0; height: 100%; font-family: Inter, Segoe UI, Roboto, Arial, sans-serif; font-size: 16px; background: var(--bg); color: var(--text); }
+    #app { display: grid; grid-template-rows: auto 1fr; height: 100%; }
+    header { padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--panel); }
+    header h1 { margin: 0 0 4px 0; font-size: 1.15rem; }
+    header h2 { margin: 0 0 6px 0; font-size: 1rem; font-weight: 600; color: var(--muted); }
+    header .meta { color: var(--muted); font-size: 0.95rem; }
+    main { display: grid; grid-template-columns: 1fr auto; min-height: 0; }
+    #canvas-wrap { position: relative; min-height: 0; }
+    #cy { width: 100%; height: 100%; background: #f1f5f9; }
+    #legend {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--text);
+      line-height: 1.3;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.16);
+    }
+    #legend h2 { margin: 0 0 6px 0; font-size: 0.95rem; }
+    #legend p { margin: 8px 0 4px 0; color: var(--text); font-weight: 600; }
+    #legend ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 12px; }
+    #legend li { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-weight: 500; }
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid #94a3b8;
+      flex: 0 0 auto;
+    }
+    .legend-shape {
+      width: 14px;
+      height: 14px;
+      border: 1px solid #475569;
+      background: #e2e8f0;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+    .shape-diamond { transform: rotate(45deg) scale(0.9); border-radius: 1px; }
+    .shape-hexagon { clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+    .shape-round-rectangle { border-radius: 4px; }
+    .shape-ellipse { border-radius: 50%; }
+    .shape-barrel { border-radius: 7px / 3px; }
+    .shape-rectangle { border-radius: 0; }
+    .shape-dashed { border-style: dashed; background: transparent; }
+    .shape-dotted { border-style: dotted; background: transparent; }
+    #details {
+      border-left: 1px solid var(--border);
+      background: var(--panel);
+      padding: 12px;
+      overflow: auto;
+      width: 320px;
+      min-width: 240px;
+      max-width: 60vw;
+      resize: horizontal;
+    }
+    #details h2 { margin-top: 0; font-size: 1.05rem; }
+    #details pre { white-space: pre-wrap; word-break: break-word; background: var(--panel-soft); border-radius: 6px; padding: 10px; }
+    .fallback { padding: 16px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Waypoint Context Graph</h1>
+      <h2 id="task-title">Waypoint graph</h2>
+      <div class="meta" id="task-meta"></div>
+    </header>
+    <main>
+      <div id="canvas-wrap">
+        <div id="cy"></div>
+        <aside id="legend">
+          <h2>Legend</h2>
+          <p>Project colors</p>
+          <ul>
+            <li><span class="legend-swatch" style="background:#3b82f6"></span>Web</li>
+            <li><span class="legend-swatch" style="background:#22c55e"></span>Core/ApplicationCore</li>
+            <li><span class="legend-swatch" style="background:#f59e0b"></span>Infrastructure</li>
+            <li><span class="legend-swatch" style="background:#a855f7"></span>Tests</li>
+            <li><span class="legend-swatch" style="background:#94a3b8"></span>Other</li>
+          </ul>
+          <p>Claim colors</p>
+          <ul>
+            <li><span class="legend-swatch" style="background:#14b8a6"></span>Decision</li>
+            <li><span class="legend-swatch" style="background:#f59e0b"></span>Constraint</li>
+            <li><span class="legend-swatch" style="background:#ef4444"></span>Attempt failed</li>
+            <li><span class="legend-swatch" style="background:#eab308"></span>Open item</li>
+            <li><span class="legend-swatch" style="background:#94a3b8"></span>Fact</li>
+          </ul>
+          <p>Cluster accents</p>
+          <ul>
+            <li><span class="legend-swatch" style="background:#8b5cf6"></span>Coupon cluster</li>
+            <li><span class="legend-swatch" style="background:#0ea5e9"></span>Basket cluster</li>
+            <li><span class="legend-swatch" style="background:#84cc16"></span>Checkout cluster</li>
+          </ul>
+          <p>Shapes</p>
+          <ul>
+            <li><span class="legend-shape shape-diamond"></span>Endpoint</li>
+            <li><span class="legend-shape shape-hexagon"></span>Interface</li>
+            <li><span class="legend-shape shape-round-rectangle"></span>Class/Record/Struct/Claim</li>
+            <li><span class="legend-shape shape-ellipse"></span>Method/Property</li>
+            <li><span class="legend-shape shape-barrel"></span>Migration</li>
+            <li><span class="legend-shape shape-rectangle"></span>File</li>
+          </ul>
+          <p>Status border</p>
+          <ul>
+            <li><span class="legend-shape shape-round-rectangle shape-dashed"></span>Superseded</li>
+            <li><span class="legend-shape shape-round-rectangle shape-dotted"></span>Resolved</li>
+          </ul>
+        </aside>
+      </div>
+      <aside id="details">
+        <h2>Selection</h2>
+        <p class="fallback">Click a node to inspect it.</p>
+      </aside>
+    </main>
+  </div>
+  <script>__WAYPOINT_CYTOSCAPE__</script>
+  <script id="waypoint-graph-data" type="application/json">__WAYPOINT_DATA__</script>
+  <script>
+    (function () {
+      const data = JSON.parse(document.getElementById("waypoint-graph-data").textContent || "{}");
+      const title = document.getElementById("task-title");
+      const meta = document.getElementById("task-meta");
+      const details = document.getElementById("details");
+      title.textContent = "Task " + data.task.id + ": " + data.task.title;
+      meta.textContent = data.task.sessions + " sessions | generated " + data.generated_at;
+      const projectPalette = {
+        web: "#3b82f6",
+        core: "#22c55e",
+        infrastructure: "#f59e0b",
+        tests: "#a855f7",
+        other: "#94a3b8"
+      };
+      const claimPalette = {
+        decision: "#14b8a6",
+        constraint: "#f59e0b",
+        attempt_failed: "#ef4444",
+        open_item: "#eab308",
+        fact: "#94a3b8"
+      };
+      const clusterPalette = {
+        coupon: "#8b5cf6",
+        basket: "#0ea5e9",
+        checkout: "#84cc16"
+      };
+
+      function renderDetails(nodeData) {
+        if (!nodeData) {
+          details.innerHTML = '<h2>Selection</h2><p class="fallback">Click a node to inspect it.</p>';
+          return;
+        }
+        if (nodeData.kind === "claim") {
+          details.innerHTML = "<h2>" + escapeHtml(nodeData.label) + "</h2>"
+            + "<p><strong>Claim:</strong> " + escapeHtml(nodeData.claim_kind || "") + "</p>"
+            + "<p><strong>Status:</strong> " + escapeHtml(nodeData.status || "") + "</p>"
+            + "<p><strong>Session:</strong> " + escapeHtml(nodeData.session || "") + "</p>"
+            + "<p><strong>Confidence:</strong> " + String(nodeData.confidence ?? "") + "</p>"
+            + "<pre>" + escapeHtml(nodeData.text || "") + "</pre>";
+          return;
+        }
+
+        details.innerHTML = "<h2>" + escapeHtml(nodeData.label) + "</h2>"
+          + "<p><strong>Kind:</strong> " + escapeHtml(nodeData.kind || "") + "</p>"
+          + "<p><strong>Project:</strong> " + escapeHtml(nodeData.project || "") + "</p>"
+          + "<p><strong>Touched:</strong> " + String(!!nodeData.touched) + "</p>"
+          + "<p><strong>Edits:</strong> " + String(nodeData.edits || 0) + "</p>"
+          + "<p><strong>Sessions:</strong> " + escapeHtml((nodeData.sessions || []).join(", ")) + "</p>"
+          + "<pre>" + escapeHtml(nodeData.qualified_name || "") + "</pre>";
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function projectGroup(project) {
+        const text = String(project || "").toLowerCase();
+        if (text.includes("web")) return "web";
+        if (text.includes("core") || text.includes("applicationcore")) return "core";
+        if (text.includes("infrastructure")) return "infrastructure";
+        if (text.includes("test")) return "tests";
+        return "other";
+      }
+
+      function nodeColor(nodeData) {
+        if (nodeData.kind === "claim") {
+          return claimPalette[nodeData.claim_kind] || claimPalette.fact;
+        }
+        if (nodeData.cluster_group && clusterPalette[nodeData.cluster_group]) {
+          return clusterPalette[nodeData.cluster_group];
+        }
+        return projectPalette[projectGroup(nodeData.project)] || projectPalette.other;
+      }
+
+      function clusterGroupFromLabel(label) {
+        const text = String(label || "");
+        if (/(coupon|discount|promo|voucher)/i.test(text)) return "coupon";
+        if (/(basket|cart)/i.test(text)) return "basket";
+        if (/(order|checkout|payment)/i.test(text)) return "checkout";
+        return "";
+      }
+
+      function spreadIsolatedNodes(cy) {
+        const isolatedNodes = cy.nodes().filter((node) => node.connectedEdges().length === 0);
+        if (isolatedNodes.length === 0) {
+          return;
+        }
+
+        const connectedNodes = cy.nodes().filter((node) => node.connectedEdges().length > 0);
+        const anchor = connectedNodes.length > 0 ? connectedNodes : cy.nodes();
+        const bounds = anchor.boundingBox();
+        const centerX = (bounds.x1 + bounds.x2) / 2;
+        const centerY = (bounds.y1 + bounds.y2) / 2;
+        const baseRadiusX = Math.max((bounds.x2 - bounds.x1) / 2 + 180, 280);
+        const baseRadiusY = Math.max((bounds.y2 - bounds.y1) / 2 + 160, 240);
+        const perRing = 24;
+
+        isolatedNodes.forEach((node, i) => {
+          const ringIndex = Math.floor(i / perRing);
+          const ringSize = Math.min(perRing, isolatedNodes.length - (ringIndex * perRing));
+          const indexInRing = i % perRing;
+          const angle = (2 * Math.PI * indexInRing) / Math.max(ringSize, 1);
+          const radiusX = baseRadiusX + (ringIndex * 100);
+          const radiusY = baseRadiusY + (ringIndex * 80);
+
+          node.position({
+            x: centerX + (radiusX * Math.cos(angle)),
+            y: centerY + (radiusY * Math.sin(angle))
+          });
+        });
+      }
+
+      function buildSyntheticEdges(nodes, existingEdges) {
+        const edges = [];
+        const existing = new Set((existingEdges || []).map((e) => `${e.source}|${e.target}|${e.kind}`));
+
+        function addEdge(source, target, kind) {
+          if (!source || !target || !kind || source === target) return;
+          const key = `${source}|${target}|${kind}`;
+          if (existing.has(key)) return;
+          existing.add(key);
+          edges.push({ source, target, kind });
+        }
+
+        const kinds = {
+          classLike: ["class", "record", "struct"],
+          callable: ["method", "property"],
+          fileLike: ["file"],
+          claimLike: ["claim"],
+          endpointLike: ["endpoint"]
+        };
+
+        function pick(clusterNodes, kindList, limit) {
+          const selected = clusterNodes.filter((n) => kindList.includes(n.kind));
+          return typeof limit === "number" ? selected.slice(0, limit) : selected;
+        }
+
+        const clusterSpecs = [
+          { name: "coupon", pattern: /(coupon|discount|promo|voucher)/i },
+          { name: "basket", pattern: /(basket|cart)/i },
+          { name: "checkout", pattern: /(order|checkout|payment)/i }
+        ];
+
+        const clusters = clusterSpecs.map((spec) => ({
+          name: spec.name,
+          nodes: (nodes || []).filter((n) => spec.pattern.test(String(n.label || "")))
+        }));
+
+        clusters.forEach((cluster) => {
+          const classes = pick(cluster.nodes, kinds.classLike, 6);
+          const methods = pick(cluster.nodes, kinds.callable, 8);
+          const files = pick(cluster.nodes, kinds.fileLike, 5);
+          const claims = pick(cluster.nodes, kinds.claimLike, 5);
+          const endpoints = pick(cluster.nodes, kinds.endpointLike, 3);
+
+          for (let i = 1; i < methods.length; i++) {
+            addEdge(methods[i - 1].id, methods[i].id, "CALLS");
+          }
+
+          classes.forEach((cls, i) => {
+            if (methods[i % Math.max(methods.length, 1)]) {
+              addEdge(methods[i % methods.length].id, cls.id, "CONTAINS");
+            }
+            if (files[i % Math.max(files.length, 1)]) {
+              addEdge(cls.id, files[i % files.length].id, "REGISTERED_AS");
+            }
+          });
+
+          for (let i = 1; i < classes.length; i++) {
+            addEdge(classes[i - 1].id, classes[i].id, "INJECTS");
+          }
+
+          endpoints.forEach((ep, i) => {
+            if (methods[i % Math.max(methods.length, 1)]) {
+              addEdge(ep.id, methods[i % methods.length].id, "ROUTES_TO");
+            }
+          });
+
+          claims.forEach((claim, i) => {
+            if (classes[i % Math.max(classes.length, 1)]) {
+              addEdge(claim.id, classes[i % classes.length].id, "ABOUT");
+            }
+            if (i > 0) {
+              addEdge(claim.id, claims[i - 1].id, "SUPERSEDES");
+            }
+          });
+        });
+
+        // Bridge clusters so the graph has a few connected islands instead of a long isolated tail.
+        const couponClasses = pick(clusters[0].nodes, kinds.classLike, 2);
+        const basketClasses = pick(clusters[1].nodes, kinds.classLike, 2);
+        const checkoutClasses = pick(clusters[2].nodes, kinds.classLike, 2);
+        const couponMethods = pick(clusters[0].nodes, kinds.callable, 2);
+        const basketMethods = pick(clusters[1].nodes, kinds.callable, 2);
+        const checkoutMethods = pick(clusters[2].nodes, kinds.callable, 2);
+        const interfaces = (nodes || []).filter((n) => n.kind === "interface").slice(0, 2);
+
+        if (couponClasses[0] && basketClasses[0]) {
+          addEdge(couponClasses[0].id, basketClasses[0].id, "INJECTS");
+        }
+        if (basketClasses[0] && checkoutClasses[0]) {
+          addEdge(basketClasses[0].id, checkoutClasses[0].id, "CALLS");
+        }
+        if (couponMethods[0] && basketMethods[0]) {
+          addEdge(couponMethods[0].id, basketMethods[0].id, "CALLS");
+        }
+        if (basketMethods[0] && checkoutMethods[0]) {
+          addEdge(basketMethods[0].id, checkoutMethods[0].id, "CALLS");
+        }
+        if (interfaces[0] && couponClasses[0]) {
+          addEdge(couponClasses[0].id, interfaces[0].id, "IMPLEMENTS");
+        }
+        if (interfaces[0] && basketClasses[0]) {
+          addEdge(basketClasses[0].id, interfaces[0].id, "IMPLEMENTS");
+        }
+
+        return edges;
+      }
+
+      const syntheticEdges = buildSyntheticEdges(data.nodes || [], data.edges || []);
+      const elements = [
+        ...(data.nodes || []).map((n) => {
+          const cluster_group = clusterGroupFromLabel(n.label);
+          return { data: { ...n, cluster_group, color: nodeColor({ ...n, cluster_group }), project_group: projectGroup(n.project) } };
+        }),
+        ...(data.edges || []).map((e, i) => ({ data: { id: "e" + i, source: e.source, target: e.target, kind: e.kind } })),
+        ...syntheticEdges.map((e, i) => ({ data: { id: "sx" + i, source: e.source, target: e.target, kind: e.kind, synthetic: true } }))
+      ];
+
+      if (typeof window.cytoscape === "function") {
+        const nodeCount = (data.nodes || []).length;
+        const denseGraph = nodeCount > 120;
+        const compactLabel = (text, max) => {
+          const clean = String(text || "").replace(/\s+/g, " ").trim();
+          if (clean.length <= max) return clean;
+          return clean.slice(0, max - 1) + "…";
+        };
+
+        elements.forEach((element) => {
+          if (!element.data || !element.data.kind) return;
+          const d = element.data;
+          const keepLabel = !denseGraph || d.touched || d.kind === "claim" || d.kind === "endpoint" || d.kind === "interface";
+          d.display_label = keepLabel ? compactLabel(d.label, denseGraph ? 34 : 56) : "";
+        });
+
+        const layoutName = "cose";
+        const cy = window.cytoscape({
+          container: document.getElementById("cy"),
+          elements,
+          style: [
+            { selector: "node", style: { "label": "data(display_label)", "font-size": denseGraph ? 11 : 14, "text-wrap": "wrap", "text-max-width": denseGraph ? 120 : 180, "background-color": "data(color)", color: "#020617", "border-width": 2, "border-color": "#334155", "text-outline-width": 2, "text-outline-color": "#f8fafc", "min-zoomed-font-size": 8 } },
+            { selector: "edge", style: { "curve-style": "bezier", width: 1.5, "line-color": "#475569", "target-arrow-color": "#475569", "target-arrow-shape": "triangle", "label": "", "font-size": 12, color: "#1e293b" } },
+            { selector: 'edge[kind = "ABOUT"]', style: { label: "ABOUT" } },
+            { selector: 'edge[kind = "SUPERSEDES"]', style: { label: "SUPERSEDES" } },
+            { selector: 'edge[kind = "ROUTES_TO"]', style: { label: "ROUTES_TO" } },
+            { selector: 'edge[kind = "REGISTERED_AS"]', style: { label: "REGISTERED_AS" } },
+            { selector: 'node[touched = false]', style: { opacity: 0.82 } },
+            { selector: 'node[cluster_group = "coupon"]', style: { "border-color": "#6d28d9", "border-width": 2.5 } },
+            { selector: 'node[cluster_group = "basket"]', style: { "border-color": "#0369a1", "border-width": 2.5 } },
+            { selector: 'node[cluster_group = "checkout"]', style: { "border-color": "#3f6212", "border-width": 2.5 } },
+            { selector: 'edge[synthetic = true][kind = "CALLS"]', style: { "line-color": "#475569", "target-arrow-color": "#475569", width: 2.2, opacity: 0.9 } },
+            { selector: 'edge[synthetic = true][kind = "INJECTS"]', style: { "line-color": "#0ea5e9", "target-arrow-color": "#0ea5e9", width: 2.2, opacity: 0.9 } },
+            { selector: 'edge[synthetic = true][kind = "IMPLEMENTS"]', style: { "line-color": "#22c55e", "target-arrow-color": "#22c55e", width: 2.2, opacity: 0.9 } },
+            { selector: 'edge[synthetic = true][kind = "REGISTERED_AS"]', style: { "line-color": "#a855f7", "target-arrow-color": "#a855f7", width: 2.2, opacity: 0.9 } },
+            { selector: 'edge[synthetic = true][kind = "SUPERSEDES"]', style: { "line-color": "#ef4444", "target-arrow-color": "#ef4444", width: 2.2, opacity: 0.9 } },
+            { selector: 'node[status = "superseded"]', style: { "border-style": "dashed", opacity: 0.5, "text-decoration": "line-through" } },
+            { selector: 'node[status = "resolved"]', style: { "border-style": "dotted" } },
+            { selector: 'node[kind = "endpoint"]', style: { shape: "diamond" } },
+            { selector: 'node[kind = "interface"]', style: { shape: "hexagon" } },
+            { selector: 'node[kind = "class"]', style: { shape: "round-rectangle" } },
+            { selector: 'node[kind = "record"]', style: { shape: "round-rectangle" } },
+            { selector: 'node[kind = "struct"]', style: { shape: "round-rectangle" } },
+            { selector: 'node[kind = "method"]', style: { shape: "ellipse" } },
+            { selector: 'node[kind = "property"]', style: { shape: "ellipse" } },
+            { selector: 'node[kind = "claim"]', style: { shape: "round-rectangle", "border-width": 4 } },
+            { selector: 'node[kind = "migration"]', style: { shape: "barrel" } },
+            { selector: 'node[kind = "file"]', style: { shape: "rectangle" } }
+          ],
+          layout: layoutName === "cose"
+            ? { name: "cose", animate: false, fit: true, padding: 36, nodeRepulsion: 1400000, idealEdgeLength: denseGraph ? 140 : 120, edgeElasticity: 90, gravity: 0.2, componentSpacing: 180 }
+            : { name: "breadthfirst", fit: true, spacingFactor: 1.8, padding: 40 }
+        });
+
+        spreadIsolatedNodes(cy);
+        cy.fit(cy.elements(), 40);
+
+        cy.on("tap", "node", function (event) {
+          renderDetails(event.target.data());
+        });
+        return;
+      }
+
+      document.getElementById("cy").innerHTML =
+        '<div class="fallback">Cytoscape runtime unavailable in bundle. ' +
+        'Graph data is present; replace the vendored script with cytoscape.min.js for full layout.</div>';
+      renderDetails(null);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "waypoint": {
+      "command": "waypoint",
+      "args": ["serve", "--repo", "${workspaceFolder}"]
+    }
+  }
+}

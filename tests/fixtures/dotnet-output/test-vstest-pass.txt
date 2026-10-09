@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Shop.Core -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/fixtures/DemoShop/src/Shop.Core/bin/Debug/net10.0/Shop.Core.dll
+  Shop.Infrastructure -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/fixtures/DemoShop/src/Shop.Infrastructure/bin/Debug/net10.0/Shop.Infrastructure.dll
+  Shop.UnitTests -> /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/fixtures/DemoShop/tests/Shop.UnitTests/bin/Debug/net10.0/Shop.UnitTests.dll
+Test run for /Users/sketha/Projects/Global Hackathon 2026/Ideation v1/waypoint/tests/fixtures/DemoShop/tests/Shop.UnitTests/bin/Debug/net10.0/Shop.UnitTests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 241 ms - Shop.UnitTests.dll (net10.0)

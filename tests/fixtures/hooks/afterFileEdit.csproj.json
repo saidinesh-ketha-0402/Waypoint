@@ -1,0 +1,15 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "afterFileEdit",
+  "file_path": "{{REPO}}/tests/fixtures/DemoShop/src/Shop.Web/Shop.Web.csproj",
+  "edits": [
+    {
+      "old_string": "<PackageReference Include=\"Microsoft.EntityFrameworkCore.InMemory\" />",
+      "new_string": "<PackageReference Include=\"Microsoft.EntityFrameworkCore.InMemory\" />\n    <PackageReference Include=\"Microsoft.EntityFrameworkCore.Design\" />"
+    }
+  ]
+}

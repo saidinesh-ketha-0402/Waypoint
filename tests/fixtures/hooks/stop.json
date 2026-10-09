@@ -1,0 +1,17 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "stop",
+  "reason": "user_requested_stop",
+  "status": "stopped",
+  "loop_count": 4,
+  "usage": {
+    "input_tokens": 11600,
+    "output_tokens": 3890,
+    "cache_read_tokens": 2400
+  },
+  "transcript_path": "{{REPO}}/tests/fixtures/transcripts/sample-transcript.md"
+}

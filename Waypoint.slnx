@@ -1,0 +1,12 @@
+<Solution>
+  <Project Path="src/Waypoint.Core/Waypoint.Core.csproj" />
+  <Project Path="src/Waypoint.Roslyn/Waypoint.Roslyn.csproj" />
+  <Project Path="src/Waypoint.Mcp/Waypoint.Mcp.csproj" />
+  <Project Path="src/Waypoint.Viz/Waypoint.Viz.csproj" />
+  <Project Path="src/Waypoint.Cli/Waypoint.Cli.csproj" />
+  <Project Path="tests/Waypoint.Core.Tests/Waypoint.Core.Tests.csproj" />
+  <Project Path="tests/Waypoint.Roslyn.Tests/Waypoint.Roslyn.Tests.csproj" />
+  <Project Path="tests/Waypoint.Cli.Tests/Waypoint.Cli.Tests.csproj" />
+  <Project Path="tests/Waypoint.Mcp.Tests/Waypoint.Mcp.Tests.csproj" />
+  <Project Path="tests/Waypoint.Viz.Tests/Waypoint.Viz.Tests.csproj" />
+</Solution>

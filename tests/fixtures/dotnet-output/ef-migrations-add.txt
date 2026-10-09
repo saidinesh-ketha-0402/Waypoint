@@ -1,0 +1,3 @@
+Build started...
+Build succeeded.
+Your startup project 'Shop.Web' doesn't reference Microsoft.EntityFrameworkCore.Design. This package is required for the Entity Framework Core Tools to work. Ensure your startup project is correct, install the package, and try again.

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [{ "command": "waypoint hook sessionStart" }],
+    "beforeSubmitPrompt": [{ "command": "waypoint hook beforeSubmitPrompt" }],
+    "postToolUse": [{ "command": "waypoint hook postToolUse --inject-brief-once", "matcher": "Read|Grep|Glob|Shell" }],
+    "afterFileEdit": [{ "command": "waypoint hook afterFileEdit" }],
+    "afterAgentResponse": [{ "command": "waypoint hook afterAgentResponse" }],
+    "afterAgentThought": [{ "command": "waypoint hook afterAgentThought" }],
+    "preCompact": [{ "command": "waypoint hook preCompact" }],
+    "stop": [{ "command": "waypoint hook stop" }],
+    "sessionEnd": [{ "command": "waypoint hook sessionEnd" }]
+  }
+}

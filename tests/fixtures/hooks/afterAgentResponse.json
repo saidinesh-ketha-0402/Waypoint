@@ -1,0 +1,9 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "afterAgentResponse",
+  "response_text": "Decision: keep `PricingService` scoped to avoid cross-request state. Constraint: `ShopContext` remains scoped and must never be captured by singleton services. Failed attempt: switching `IPricingService` to singleton broke startup because of scoped `IShopContext`. Open item: decide whether `OrdersController` should persist through `BasketService` or directly through `ShopContextAdapter`."
+}

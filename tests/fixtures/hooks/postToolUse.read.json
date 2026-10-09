@@ -1,0 +1,13 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "postToolUse",
+  "tool_name": "Read",
+  "tool_input": {
+    "path": "{{REPO}}/tests/fixtures/DemoShop/src/Shop.Core/Services/PricingService.cs"
+  },
+  "tool_output": "public decimal Apply(decimal total, decimal discountPct) { ... }"
+}

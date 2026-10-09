@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>waypoint</ToolCommandName>
+    <PackageId>Waypoint.Cli</PackageId>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <RuntimeIdentifiers>osx-arm64;osx-x64;win-x64;linux-x64</RuntimeIdentifiers>
+    <TieredPGO>true</TieredPGO>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Waypoint.Core\Waypoint.Core.csproj" />
+    <ProjectReference Include="..\Waypoint.Roslyn\Waypoint.Roslyn.csproj" />
+    <ProjectReference Include="..\Waypoint.Mcp\Waypoint.Mcp.csproj" />
+    <ProjectReference Include="..\Waypoint.Viz\Waypoint.Viz.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+  </ItemGroup>
+</Project>

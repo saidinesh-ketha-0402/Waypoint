@@ -1,0 +1,13 @@
+{
+  "conversation_id": "conv_demo_001",
+  "session_id": "sess_demo_001",
+  "workspace_roots": [
+    "{{REPO}}"
+  ],
+  "hook_event_name": "sessionEnd",
+  "duration_ms": 318000,
+  "token_usage": {
+    "input": 12500,
+    "output": 3200
+  }
+}
